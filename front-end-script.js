@@ -1,24 +1,44 @@
 var lineNumber = 0
+var colNumber = 0
 var secret = ""
-function displayLetters() {
-//   document.getElementById("").innerHTML = document.getElementById("myInput").value;
-    var len = document.getElementById("myInput").value.length
 
+function addLetter(letter) {
     const table = document.getElementById("guessTable")
-    for(var i = 0; i < 5; i++) {
-        if (i < len)
-            table.rows[lineNumber].cells[i].innerHTML = document.getElementById("myInput").value[i]
-        else
-            table.rows[lineNumber].cells[i].innerHTML = ""
-    }
-    
+    table.rows[lineNumber].cells[colNumber].innerHTML = letter.toUpperCase()
+    colNumber++;
 }
+
+function removeLetter() {
+    if (colNumber == 0) {
+        return;
+    }
+    colNumber--;
+    const table = document.getElementById("guessTable")
+    table.rows[lineNumber].cells[colNumber].innerHTML = ""
+}
+
+function getGuess() {
+    const table = document.getElementById("guessTable")
+    if (colNumber != 5) {
+        console.log("Must have complete word to guess")
+        return false;
+    }
+    var rtn = ""
+    for (var i = 0; i < 5; i++) {
+        rtn += table.rows[lineNumber].cells[i].innerHTML
+    }
+    return rtn
+}
+
 function getScore() {
-    const message = document.getElementById("myInput").value
+    const message = getGuess()
+    if (message == false) {
+        return;
+    }
     console.log(message)
     axios.post("http:127.0.0.1:3000/score",
         {
-            guess: message,
+            guess: message.toLowerCase(),
             secret: secret
         }
     ).then(response => {
@@ -48,6 +68,7 @@ function getScore() {
         }
 
         lineNumber++
+        colNumber = 0
         // Process the response data here
     })
     .catch(error => {
@@ -60,7 +81,6 @@ function getScore() {
 
 function getKey() {
     console.log("This should happen on page load")
-    document.getElementById("wordForm").focus()
     axios.get("http:127.0.0.1:3000/getKey")
     .then(response => {
         secret = response.data
@@ -76,11 +96,25 @@ function getKey() {
 
 }
 
-document.getElementById("myInput").addEventListener("input", displayLetters);
 
 document.body.onkeydown = function(e){
     //alert(String.fromCharCode(e.keyCode)+" --> "+e.keyCode);
+    keyPress(e)
 };
+
+function keyPress(e) {
+    key = e.key
+    if (key == "Enter") {
+        getScore()
+    }
+    if (key == "Backspace") {
+        removeLetter()
+    }
+    if (e.code === `Key${key.toUpperCase()}`){
+        console.log("Pressing alpha key: ", key)
+        addLetter(key)
+    }
+}
 
 
 // document.getElementById("myInput").addEventListener("submit", function(event){
