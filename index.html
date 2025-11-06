@@ -1,0 +1,64 @@
+<link rel="stylesheet" href="styles.css">
+<body onload="return getKey()">
+<table id="guessTable">
+    <tr>
+        <td>H</td>
+        <td>E</td>
+        <td>L</td>
+        <td>L</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>H</td>
+        <td>E</td>
+        <td>L</td>
+        <td>L</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>H</td>
+        <td>E</td>
+        <td>L</td>
+        <td>L</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>H</td>
+        <td>E</td>
+        <td>L</td>
+        <td>L</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>H</td>
+        <td>E</td>
+        <td>L</td>
+        <td>L</td>
+        <td>O</td>
+    </tr>
+    <tr>
+        <td>H</td>
+        <td>E</td>
+        <td>L</td>
+        <td>L</td>
+        <td>O</td>
+    </tr>
+</table>
+
+<!-- <script>
+    document.getElementById("myInput").addEventListener("submit", myFunction);
+
+    function myFunction() {
+    alert("Por qua?")
+    document.getElementById("demo").innerHTML = document.getElementById("myInput").value;
+    }
+</script> -->
+
+<form onsubmit="return getScore()" id = "wordForm" autofocus>
+    <input type = "text" id="myInput" value="Palm Springs">
+</form>
+
+<p id="demo">Hmm?</p>
+</body>
+<script src="front-end-script.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>

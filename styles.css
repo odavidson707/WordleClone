@@ -1,0 +1,36 @@
+.imperfect {
+    background: khaki;
+    font-size: xx-large;
+    padding: 12px;
+    color: white;
+    font-weight: bold;
+}
+
+.perfect {
+    background: green;
+    font-size: xx-large;
+    padding: 12px;
+    color: white;
+    font-weight: bold;
+}
+
+.miss {
+    background: gray;
+    font-size: xx-large;
+    padding: 12px;
+    color: white;
+    font-weight: bold;
+}
+
+.guess {
+    background: white;
+    font-size: xx-large;
+    padding: 12px;
+    border: 2px solid black;
+    color: black;
+    font-weight: bold;
+}
+
+table {
+  border-spacing: 6px;
+}
