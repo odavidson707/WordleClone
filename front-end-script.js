@@ -47,21 +47,52 @@ function getScore() {
         const table = document.getElementById("guessTable")
         //for i in range 5
         //console.log(response.data[i])
+        var elements = document.getElementsByClassName("letterButton");
+        for (var i = 0; i < 26; i++) {
+           console.log(elements[i].innerHTML) 
+        }
+                    
+
+        // Source - https://stackoverflow.com/a
+        // Posted by harpo, modified by community. See post 'Timeline' for change history
+        // Retrieved 2025-11-07, License - CC BY-SA 4.0
+        var elementArr = Array.prototype.slice.call( elements )
+        for (var i = 0; i < 26; i++) {
+           console.log(elementArr[i].innerHTML) 
+        }
+                    
+
         for (var i = 0; i < 5; i++) {
             console.log(response.data[i])
             switch(response.data[i][1]) {
                 case "GREEN":
                     table.rows[lineNumber].cells[i].classList.add("perfect")
                     table.rows[lineNumber].cells[i].classList.remove("guess")
+                    
+                    var letter = response.data[i][0]
+                    var found = elementArr.filter(element => element.innerHTML == letter.toUpperCase())
+                    found[0].classList.add("perfectKeyBoard")
 
                     break;
                 case "ORANGE":
                     table.rows[lineNumber].cells[i].classList.add("imperfect")
                     table.rows[lineNumber].cells[i].classList.remove("guess")
+                    
+                    var letter = response.data[i][0]
+                    var found = elementArr.filter(element => element.innerHTML == letter.toUpperCase())
+                    console.log(found)
+                    found[0].classList.add("imperfectKeyBoard")
+
                     break;
                 case "GRAY":
                     table.rows[lineNumber].cells[i].classList.add("miss")
                     table.rows[lineNumber].cells[i].classList.remove("guess")
+                    
+                    var letter = response.data[i][0]
+                    var found = elementArr.filter(element => element.innerHTML == letter.toUpperCase())
+                    console.log(found)
+                    found[0].classList.add("missKeyBoard")
+
                     break;
 
             }

@@ -35,6 +35,14 @@
     background: gray;
 }
 
+.imperfectKeyBoard {
+    background: khaki;
+}
+
+.perfectKeyBoard {
+    background: green;
+}
+
 table {
   border-spacing: 6px;
 }

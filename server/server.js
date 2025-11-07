@@ -26,7 +26,8 @@ app.get("/getKey", (req, res) => {
         word = words[idx]
         console.log(word)
 
-        res.send(word)
+        // res.send(word)
+        res.send("erode")
     })
 })
 
