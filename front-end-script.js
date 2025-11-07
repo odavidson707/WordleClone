@@ -30,6 +30,22 @@ function getGuess() {
     return rtn
 }
 
+async function checkValid(message) {
+    const response = await axios.post("http:127.0.0.1:3000/checkValid", 
+        {
+            word: message.toLowerCase()
+        }
+    )
+    console.log("How do I return a value from a function after axios request?")
+    console.log(response.data)
+    
+    if (response.data == false) {
+        alert("Not a recognized word")
+        return false;
+    }
+        
+    return true; 
+}
 function getScore() {
     const message = getGuess()
     if (message == false) {
@@ -144,10 +160,13 @@ document.body.onkeydown = function(e){
     keyPress(e)
 };
 
-function keyPress(e) {
+async function keyPress(e) {
     key = e.key
     if (key == "Enter") {
-        getScore()
+        var valid = await checkValid(getGuess())
+        if (valid) {
+            getScore()
+        }
     }
     if (key == "Backspace") {
         removeLetter()

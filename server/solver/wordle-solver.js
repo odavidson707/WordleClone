@@ -12,7 +12,7 @@ class WordleSolver {
         for (const i in this.candidates) {
             this.candidates[i] = this.candidates[i].split("\r")[0]
         }
-        this.guessable = fs.readFileSync("wordle-Ta.txt").toString().split("\n")
+        this.guessable = fs.readFileSync("wordle-TaLa.txt").toString().split("\n")
         for (var i in this.guessable) {
             this.guessable[i] = this.guessable[i].split("\r")[0]
         }
@@ -252,6 +252,10 @@ class WordleSolver {
             return this.candidates[0]
         }
         return sampledGuess
+    }
+
+    checkValid(word) {
+        return this.guessable.includes(word)
     }
 }
 //ws.score(secret, "month")

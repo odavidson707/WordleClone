@@ -17,6 +17,17 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+app.post("/checkValid", (req, res) => {
+  var wordle = new ws.WordleSolver
+  console.log("Checking validity of " +req.body["word"])
+  var validity =wordle.checkValid(req.body["word"]) 
+  console.log(validity)
+  if (validity == true)
+    res.send("valid")
+  else
+    res.send("invalid")
+})
+
 app.get("/getKey", (req, res) => {
     fs.readFile("wordle-La.txt", (err, data) => {
         words = data.toString().split("\n")
@@ -26,8 +37,8 @@ app.get("/getKey", (req, res) => {
         word = words[idx]
         console.log(word)
 
-        // res.send(word)
-        res.send("erode")
+        res.send(word)
+        // res.send("erode")
     })
 })
 
