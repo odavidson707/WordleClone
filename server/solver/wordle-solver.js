@@ -103,7 +103,19 @@ class WordleSolver {
         }
         return rtn
     }
+
+
+    perfectInWord(secret, guess, letter) {
+        for (let idx = 0; idx < 5; idx++) {
+            if(secret.charAt(idx) == guess.charAt(idx) && secret.charAt(idx) == letter) {
+                return true
+            } 
+        }
+        return false
+    }
+
     score(secret, guess) {
+        console.log("Scoring guess ", guess, " for secret: ", secret)
         var letters = this.commonLetters(secret, guess)
 
         var score = []
@@ -125,8 +137,12 @@ class WordleSolver {
                         this.addToImperfect(letter)
                     }
                 } else {
-                    score.push([letter, "ORANGE"])
-                    this.addToImperfect(letter)
+                    if (this.perfectInWord(secret, guess, letter)) {
+                        score.push([letter, "GRAY"])
+                    } else {
+                        score.push([letter, "ORANGE"])
+                        this.addToImperfect(letter)
+                    }
                 }
             } else {
                 score.push([letter, "GRAY"])

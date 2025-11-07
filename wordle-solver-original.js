@@ -103,6 +103,16 @@ class WordleSolver {
         }
         return rtn
     }
+
+    perfectInWord(secret, guess, letter) {
+        for (let idx = 0; idx < 5; idx++) {
+            if(secret.charAt(idx) == guess.charAt(idx) && secret.charAt(idx) == letter) {
+                return true
+            } 
+        }
+        return false
+    }
+
     score(secret, guess) {
         var letters = this.commonLetters(secret, guess)
 
@@ -110,11 +120,12 @@ class WordleSolver {
 
         const guessArr = [...guess]
         guessArr.forEach((letter, idx) =>{
-            if (secret.charAt(idx) == letter) {
+            if (secret.charAt(idx) == letter) { //if perfect match
                 score.push([letter, "GREEN"])
                 this.addToPerfect(letter, idx)
-            } else if (secret.indexOf(letter) != -1) {
+            } else if (secret.indexOf(letter) != -1) { //if imperfect match
                 const letterCount = this.countLetterInScore(score, letter)
+                //if the letter is already scored 
                 if (letterCount >= 1) { //there is already an instance of this letter in the score.
                                         //if there are letterCount + 1 instances in the secret, score, otherwise, no score
                     var re = new RegExp(letter, "g");
@@ -124,17 +135,27 @@ class WordleSolver {
                         score.push([letter, "ORANGE"])
                         this.addToImperfect(letter)
                     }
-                } else {
-                    score.push([letter, "ORANGE"])
-                    this.addToImperfect(letter)
                 }
-            } else {
+                //regular imperfect
+                else {
+                    if (this.perfectInWord(secret, guess, letter)) {
+                        score.push([letter, "GRAY"])
+                    } 
+                    else{
+                        score.push([letter, "ORANGE"])
+                        this.addToImperfect(letter)
+                    }
+                }
+            }   
+            //total miss
+            else { 
                 score.push([letter, "GRAY"])
                 this.addToMisses(letter)
             }
         });
 
-        return this.eliminateCandidates()
+        this.eliminateCandidates()
+        return score
     }
 
     addToPerfect(letter, idx) {
@@ -273,7 +294,17 @@ function manual() {
     }
 }
 
-// manual()
+function promptGuess() {
+    var secret = "trees"
+    //guess eexxx
+    var ws = new WordleSolver()
+    while (true) {
+        var guess = prompt("enter guess")
+        console.log(ws.score(secret, guess))
+    }
+}
+
+promptGuess()
 
 module.exports = {
     WordleSolver

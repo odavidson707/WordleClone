@@ -31,6 +31,10 @@
     font-weight: bold;
 }
 
+.missKeyBoard {
+    background: gray;
+}
+
 table {
   border-spacing: 6px;
 }

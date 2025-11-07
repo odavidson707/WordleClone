@@ -53,6 +53,7 @@ function getScore() {
                 case "GREEN":
                     table.rows[lineNumber].cells[i].classList.add("perfect")
                     table.rows[lineNumber].cells[i].classList.remove("guess")
+
                     break;
                 case "ORANGE":
                     table.rows[lineNumber].cells[i].classList.add("imperfect")
@@ -80,6 +81,16 @@ function getScore() {
  }
 
 function getKey() {
+    var elements = document.getElementsByClassName("letterButton");
+    console.log("Should be 26", elements.length)
+
+    console.log(elements[0].innerHTML)
+
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].addEventListener('click', function () {
+            addLetter(this.innerHTML);
+        })
+    }
     console.log("This should happen on page load")
     axios.get("http:127.0.0.1:3000/getKey")
     .then(response => {
