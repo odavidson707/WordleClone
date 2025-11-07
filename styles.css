@@ -1,9 +1,14 @@
+.letterBox {
+    transition: transform .5s
+}
+
 .imperfect {
     background: khaki;
     font-size: xx-large;
     padding: 12px;
     color: white;
     font-weight: bold;
+    text-align: center;
 }
 
 .perfect {
@@ -12,6 +17,7 @@
     padding: 12px;
     color: white;
     font-weight: bold;
+    text-align: center;
 }
 
 .miss {
@@ -20,6 +26,7 @@
     padding: 12px;
     color: white;
     font-weight: bold;
+    text-align: center;
 }
 
 .guess {
@@ -29,6 +36,17 @@
     border: 2px solid black;
     color: black;
     font-weight: bold;
+    text-align: center;
+}
+
+.guessEmpty {
+    background: white;
+    padding: 30px;
+    border: 2px solid black
+}
+
+.letterButton {
+    padding:20px
 }
 
 .missKeyBoard {
@@ -45,4 +63,40 @@
 
 table {
   border-spacing: 6px;
+  margin: auto
+}
+
+#keyboard {
+    display: flex;
+    align-items: center;
+    margin: auto;
+    flex-direction: column;
+}
+
+#enter {
+    padding: 20px
+}
+
+#backspace {
+    padding: 20px
+}
+
+
+
+.letterBox.perfect {
+    transform: rotateX(360deg);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+.letterBox.imperfect {
+    transform: rotateX(360deg);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+.letterBox.miss {
+    transform: rotateX(360deg);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
 }

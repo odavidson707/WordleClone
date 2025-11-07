@@ -2,46 +2,46 @@
 <body onload="return getKey()">
 <table id="guessTable">
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
+        <td class="letterBox"></td>
     </tr>
 </table>
 
@@ -54,41 +54,44 @@
     }
 </script> -->
 
-<div>
-    <button class="letterButton">Q</button>
-    <button class="letterButton">W</button>
-    <button class="letterButton">E</button>
-    <button class="letterButton">R</button>
-    <button class="letterButton">T</button>
-    <button class="letterButton">Y</button>
-    <button class="letterButton">U</button>
-    <button class="letterButton">I</button>
-    <button class="letterButton">O</button>
-    <button class="letterButton">P</button>
-</div>
+<div id="keyboard">
+    <div class="keyboardRow">
+        <button class="letterButton">Q</button>
+        <button class="letterButton">W</button>
+        <button class="letterButton">E</button>
+        <button class="letterButton">R</button>
+        <button class="letterButton">T</button>
+        <button class="letterButton">Y</button>
+        <button class="letterButton">U</button>
+        <button class="letterButton">I</button>
+        <button class="letterButton">O</button>
+        <button class="letterButton">P</button>
+    </div>
 
-<div>
-    <button class="letterButton">A</button>
-    <button class="letterButton">S</button>
-    <button class="letterButton">D</button>
-    <button class="letterButton">F</button>
-    <button class="letterButton">G</button>
-    <button class="letterButton">H</button>
-    <button class="letterButton">J</button>
-    <button class="letterButton">K</button>
-    <button class="letterButton">L</button>
-</div>
+    <div class="keyboardRow">
+        <button class="letterButton">A</button>
+        <button class="letterButton">S</button>
+        <button class="letterButton">D</button>
+        <button class="letterButton">F</button>
+        <button class="letterButton">G</button>
+        <button class="letterButton">H</button>
+        <button class="letterButton">J</button>
+        <button class="letterButton">K</button>
+        <button class="letterButton">L</button>
+    </div>
 
-<div>
-    <button class="letterButton">Z</button>
-    <button class="letterButton">X</button>
-    <button class="letterButton">C</button>
-    <button class="letterButton">V</button>
-    <button class="letterButton">B</button>
-    <button class="letterButton">N</button>
-    <button class="letterButton">M</button>
+    <div class="keyboardRow">
+        <button id="enter">Enter</button>
+        <button class="letterButton">Z</button>
+        <button class="letterButton">X</button>
+        <button class="letterButton">C</button>
+        <button class="letterButton">V</button>
+        <button class="letterButton">B</button>
+        <button class="letterButton">N</button>
+        <button class="letterButton">M</button>
+        <button id="backspace">Bksp</button>
+    </div>
 </div>
-
 </body>
 <script src="front-end-script.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

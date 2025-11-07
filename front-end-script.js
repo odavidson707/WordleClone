@@ -4,6 +4,8 @@ var secret = ""
 
 function addLetter(letter) {
     const table = document.getElementById("guessTable")
+    table.rows[lineNumber].cells[colNumber].classList.add("guess")
+    table.rows[lineNumber].cells[colNumber].classList.remove("guessEmpty")
     table.rows[lineNumber].cells[colNumber].innerHTML = letter.toUpperCase()
     colNumber++;
 }
@@ -146,7 +148,7 @@ function getKey() {
         console.log(table.innerHTML)
         for (var i = 0; i < 6; i++) {
             for (var j = 0; j < 5; j++) {
-                table.rows[i].cells[j].classList.add("guess")
+                table.rows[i].cells[j].classList.add("guessEmpty")
             }
         }
 
@@ -160,13 +162,20 @@ document.body.onkeydown = function(e){
     keyPress(e)
 };
 
+document.getElementById("enter").addEventListener("click", validateAndGuess)
+document.getElementById("backspace").addEventListener("click", removeLetter)
+
+async function validateAndGuess() {
+    var valid = await checkValid(getGuess())
+    if (valid) {
+        getScore()
+    }
+}
+
 async function keyPress(e) {
     key = e.key
     if (key == "Enter") {
-        var valid = await checkValid(getGuess())
-        if (valid) {
-            getScore()
-        }
+        await validateAndGuess();
     }
     if (key == "Backspace") {
         removeLetter()

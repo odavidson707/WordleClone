@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 app.post("/checkValid", (req, res) => {
   var wordle = new ws.WordleSolver
   console.log("Checking validity of " +req.body["word"])
-  var validity =wordle.checkValid(req.body["word"]) 
+  var validity = wordle.checkValid(req.body["word"]) 
   console.log(validity)
   if (validity == true)
     res.send("valid")
