@@ -1,8 +1,16 @@
+require('dotenv').config();
+const {MongoClient} = require('mongodb')
 const express = require("express");
 const cors = require("cors");
 const ws = require("./solver/wordle-solver.js")
 const fs = require('fs')
+const mongoose = require("mongoose")
+const mongoConnectString = process.env.MONGODB_URI    
+var User = require("../models/user").User
 
+const client = new MongoClient(mongoConnectString)
+const db = client.db("Wordle")
+const collection = db.collection("WordleCollection")
 
 const corsOptions = {
   origin: "*",
@@ -17,6 +25,21 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+app.get("/connect", async (req, res) => {
+  
+  var player = new User({wins: 0, name: "Rufus", turnsToWin: [0,0,0,0,0,0]})
+
+  player.save()
+
+})
+
+app.get("/viewStats", async (req, res) => {
+  await mongoose.connect(mongoConnectString)
+  const query = (await User.find({name: "Rufus"}))
+  console.log(JSON.stringify(query, null, 2))
+})
+
+
 app.post("/checkValid", (req, res) => {
   var wordle = new ws.WordleSolver
   console.log("Checking validity of " +req.body["word"])
@@ -29,17 +52,24 @@ app.post("/checkValid", (req, res) => {
 })
 
 app.get("/getKey", (req, res) => {
-    fs.readFile("wordle-La.txt", (err, data) => {
-        words = data.toString().split("\n")
-        console.log(words)
-        idx = Math.floor(Math.random() * (words.length))
-        console.log(idx)
-        word = words[idx]
-        console.log(word)
+  fs.readFile("wordle-La.txt", (err, data) => {
+      words = data.toString().split("\n")
+      console.log(words)
+      idx = Math.floor(Math.random() * (words.length))
+      console.log(idx)
+      word = words[idx]
+      console.log(word)
 
-        res.send(word)
-        // res.send("erode")
-    })
+      res.send(word)
+      // res.send("renal")
+  })
+})
+
+app.get("/getStats", async (req, res) => {
+  await mongoose.connect(mongoConnectString)
+  const record = await User.findOne({name:"Rufus", "turnsToWin.5": {"$exists": true}})
+
+  res.send(record)
 })
 
 app.post("/score", (req, res) => {
@@ -48,6 +78,19 @@ app.post("/score", (req, res) => {
     console.log(req.body["secret"])
     var score = (wordle.score(req.body["secret"], req.body["guess"]))
     res.send(score);
+})
+
+app.post("/logWin", async (req, res) => {
+  //get a user by username
+  //update their document with wins
+  await mongoose.connect(mongoConnectString)
+  const winningTurn = req.body["turn"]
+  const updateObject = {wins: 1}
+  updateObject[`turnsToWin.${winningTurn}`] = 1
+  const update = await User.findOneAndUpdate({name:"Rufus", turnsToWin: {$size: 6}},{$inc:updateObject})
+  console.log(JSON.stringify(update, null, 2))
+  
+  console.log("Am I logging win?")
 })
 
 app.listen(port, () => {

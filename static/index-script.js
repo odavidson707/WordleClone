@@ -41,49 +41,44 @@ async function checkValid(message) {
     console.log("How do I return a value from a function after axios request?")
     console.log(response.data)
     
-    if (response.data == false) {
+    if (response.data == "invalid") {
         alert("Not a recognized word")
         return false;
     }
         
     return true; 
 }
-function getScore() {
+async function getScore() {
     const message = getGuess()
     if (message == false) {
         return;
     }
     console.log(message)
-    axios.post("http:127.0.0.1:3000/score",
+    return axios.post("http:127.0.0.1:3000/score",
         {
             guess: message.toLowerCase(),
             secret: secret
         }
     ).then(response => {
         // Access the response data
+        var greens = 0
         console.log(response.data);
         const table = document.getElementById("guessTable")
         //for i in range 5
         //console.log(response.data[i])
         var elements = document.getElementsByClassName("letterButton");
-        for (var i = 0; i < 26; i++) {
-           console.log(elements[i].innerHTML) 
-        }
-                    
 
         // Source - https://stackoverflow.com/a
         // Posted by harpo, modified by community. See post 'Timeline' for change history
         // Retrieved 2025-11-07, License - CC BY-SA 4.0
         var elementArr = Array.prototype.slice.call( elements )
-        for (var i = 0; i < 26; i++) {
-           console.log(elementArr[i].innerHTML) 
-        }
                     
 
         for (var i = 0; i < 5; i++) {
             console.log(response.data[i])
             switch(response.data[i][1]) {
                 case "GREEN":
+                    greens++
                     table.rows[lineNumber].cells[i].classList.add("perfect")
                     table.rows[lineNumber].cells[i].classList.remove("guess")
                     
@@ -115,10 +110,17 @@ function getScore() {
 
             }
             //if response.data[i][1]
+            if (greens == 5) {
+                console.log("Greens is 5")
+                lineNumber++
+                colNumber = 0
+                return true
+            }
         }
 
         lineNumber++
         colNumber = 0
+        return false
         // Process the response data here
     })
     .catch(error => {
@@ -167,9 +169,24 @@ document.getElementById("backspace").addEventListener("click", removeLetter)
 
 async function validateAndGuess() {
     var valid = await checkValid(getGuess())
+    console.log("Checking validity: ", valid)
     if (valid) {
-        getScore()
+        victory = await getScore()
+        if (victory) {
+            //call an endpoint that updates user win record
+            logWin(lineNumber)
+            alert("You win!")
+        }
     }
+}
+
+function logWin(turn) {
+    axios.post("http:127.0.0.1:3000/logWin", 
+    {
+        turn: turn
+    }).then(response => {
+        console.log(response.data)
+    })
 }
 
 async function keyPress(e) {
@@ -186,6 +203,12 @@ async function keyPress(e) {
     }
 }
 
+function getStats() {
+    axios.get("http:127.0.0.1:3000/connect")
+    axios.get("http:127.0.0.1:3000/viewStats")
+}
+
+document.getElementById("stats").addEventListener("click", getStats)
 
 // document.getElementById("myInput").addEventListener("submit", function(event){
 //     event.preventDefault();

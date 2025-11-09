@@ -109,7 +109,7 @@ class WordleSolver {
         var count = 0
         for (let idx = 0; idx < 5; idx++) {
             if(secret.charAt(idx) == guess.charAt(idx) && secret.charAt(idx) == letter) {
-                return count++
+                count++
             } 
         }
         return count
@@ -138,7 +138,9 @@ class WordleSolver {
                         this.addToImperfect(letter)
                     }
                 } else {
-                    if (this.perfectInWord(secret, guess, letter) > secret.split(letter).length - 1) { //the count of the letter in secret is 
+                    console.log("Letter: ", letter, " appears in secret: ", secret.split(letter).length - 1)
+                    console.log("Perfect in guess:", this.perfectInWord(secret, guess, letter))
+                    if (this.perfectInWord(secret, guess, letter) >= secret.split(letter).length - 1) { //the count of the letter in secret is 
                         score.push([letter, "GRAY"])
                     } else {
                         score.push([letter, "ORANGE"])
