@@ -21,6 +21,40 @@ class WordleSolver {
         this.misses = []
     }
 
+    
+    possibleWords(possibles) {
+        var rtn = new Set()
+        for (var i = 0; i < possibles.length; i++) {
+            for (var j = 0; j < this.candidates.length; j++) {
+                if (this.candidates[j].indexOf(possibles[i]) != -1) {
+                    rtn.add(this.candidates[j])
+                }
+            }
+        }
+        return rtn
+    }
+
+    countLetterOccurences(word, goalLetters) {
+        var occurences = 0
+        for (let i = 0; i < 5; i++) {
+            if (goalLetters.indexOf(word[i]) != -1) {
+                occurences++
+            }
+        }
+        return occurences
+    }
+
+    wordsAboveThreshold(possibleWords, goalLetters, threshold) {
+        var rtn = []
+        for (const word of possibleWords) {
+            if (this.countLetterOccurences(word, goalLetters) >= threshold) {
+                rtn.push(word)
+            }
+        }
+
+        return rtn
+    }
+
     eliminateCandidates() {
         var start = this.candidates.length
         //O(26 * candidates) = O(candidates)
@@ -295,6 +329,19 @@ function manual() {
         count++
     }
 }
+
+function calcPossibles() {
+    var ws = new WordleSolver()
+    // var goalLetters = "qwrypsfgjklzxcvb".split("")
+    // var goalLetters = "klzxcvb".split("")
+    var goalLetters = "qwrypsfg".split("")
+    var possibles = ws.possibleWords(goalLetters)
+    console.log(possibles.size)
+
+    console.log(ws.wordsAboveThreshold(possibles, goalLetters, 4))
+}
+
+calcPossibles()
 
 // manual()
 

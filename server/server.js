@@ -6,6 +6,7 @@ const ws = require("./solver/wordle-solver.js")
 const fs = require('fs')
 const mongoose = require("mongoose")
 const mongoConnectString = process.env.MONGODB_URI    
+var Game = require("../models/game").Game
 var User = require("../models/user").User
 
 const client = new MongoClient(mongoConnectString)
@@ -28,7 +29,6 @@ app.get("/", (req, res) => {
 app.get("/connect", async (req, res) => {
   
   var player = new User({wins: 0, name: "Rufus", turnsToWin: [0,0,0,0,0,0]})
-
   player.save()
 
 })
@@ -80,6 +80,24 @@ app.post("/score", (req, res) => {
     res.send(score);
 })
 
+app.get("/getGames", async (req, res) => {
+  await mongoose.connect(mongoConnectString)
+  const games = await Game.find({}).cursor()
+
+  var rtn = []
+  while (true) {
+    const game = await games.next()
+    console.log(game)
+    if (!game) {
+      break
+    }
+    rtn.push(game)
+  }
+  console.log("Getting games")
+  console.log("rtn: ", rtn)
+  res.send(rtn)
+})
+
 app.post("/logWin", async (req, res) => {
   //get a user by username
   //update their document with wins
@@ -88,6 +106,13 @@ app.post("/logWin", async (req, res) => {
   const updateObject = {wins: 1}
   updateObject[`turnsToWin.${winningTurn}`] = 1
   const update = await User.findOneAndUpdate({name:"Rufus", turnsToWin: {$size: 6}},{$inc:updateObject})
+
+  const guesses = req.body["guesses"]
+  const secret = req.body["secret"]
+  var game = new Game({guesses: guesses, secret: secret})
+  game.save()
+
+  console.log(guesses, secret)
   console.log(JSON.stringify(update, null, 2))
   
   console.log("Am I logging win?")

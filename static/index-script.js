@@ -33,7 +33,10 @@ function getGuess() {
 }
 
 async function checkValid(message) {
-    const response = await axios.post("http:127.0.0.1:3000/checkValid", 
+    if (message == ""){ //this might fix logging win on page load, I'm not sure
+        return false
+    }
+    const response = await axios.post("http://127.0.0.1:3000/checkValid", 
         {
             word: message.toLowerCase()
         }
@@ -54,7 +57,7 @@ async function getScore() {
         return;
     }
     console.log(message)
-    return axios.post("http:127.0.0.1:3000/score",
+    return axios.post("http://127.0.0.1:3000/score",
         {
             guess: message.toLowerCase(),
             secret: secret
@@ -143,7 +146,7 @@ function getKey() {
         })
     }
     console.log("This should happen on page load")
-    axios.get("http:127.0.0.1:3000/getKey")
+    axios.get("http://127.0.0.1:3000/getKey")
     .then(response => {
         secret = response.data
         const table = document.getElementById("guessTable")
@@ -180,10 +183,26 @@ async function validateAndGuess() {
     }
 }
 
+function getWord(tableRow) {
+    var word = ""
+    for (let i = 0; i < 5; i++) {
+        word += tableRow.cells[i].innerHTML
+    }
+    return word
+}
+
 function logWin(turn) {
-    axios.post("http:127.0.0.1:3000/logWin", 
+    const table = document.getElementById("guessTable")
+    var guessArr = []
+    for (let i = 0; i < lineNumber; i++) {
+        guessArr.push(getWord(table.rows[i]))
+    }
+    console.log(guessArr)
+    axios.post("http://127.0.0.1:3000/logWin", 
     {
-        turn: turn
+        turn: turn,
+        guesses: guessArr,
+        secret: secret
     }).then(response => {
         console.log(response.data)
     })
@@ -204,8 +223,8 @@ async function keyPress(e) {
 }
 
 function getStats() {
-    axios.get("http:127.0.0.1:3000/connect")
-    axios.get("http:127.0.0.1:3000/viewStats")
+    axios.get("http://127.0.0.1:3000/connect")
+    axios.get("http://127.0.0.1:3000/viewStats")
 }
 
 document.getElementById("stats").addEventListener("click", getStats)
